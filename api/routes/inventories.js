@@ -83,11 +83,35 @@ router.post('/',(req, res, next)=>{
 /**
  * Get, Put, and Delete a signle inventory item
  */
-
+/**
+ * Implement get one item
+ */
 router.get('/:itemId',(req, res, next)=>{
-    res.status(200).json({
-        message: 'Handling Get /inventroies/itemId'
+    const id = req.params.itemId;
+    Inventory.findById(id)
+    .select('name price description quantity _id')
+    .exec()
+    .then(docs=>{
+        console.log('Get item: '+ docs);
+        if(docs)
+        {
+            res.status(200).json({
+                item: docs,
+                request:{
+                    type:'GET',
+                    url: 'http://localhost:3000/inventories' + docs._id
+                }
+            });
+        }else{
+            res.status(404).json({message: 'No valid entry found for privided ID'});
+        }
     })
+    .catch(err=>{
+        console.log(err);
+        res.status(500).json({
+            error: err
+        });
+    });
 });
 
 router.put('/:itemId',(req, res, next)=>{
