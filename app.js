@@ -10,6 +10,14 @@ const morgen = require('morgan');
 // using bodyParser for read and input json
 const bodyParser = require('body-parser');
 
+// using mongoose
+const mongoose = require('mongoose');
+
+mongoose.connect('mongodb+srv://sosapi:'+ process.env.MONGO_ATLAS_PW+'@simple-order-service-zg5yk.mongodb.net/test?retryWrites=true&w=majority',{
+    useUnifiedTopology:true,
+    useNewUrlParser: true
+})
+
 // the inventories route
 const inventoryRoutes = require('./api/routes/inventories');
 
