@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 
+const inventory = require('../models/inventory');
 
 /**
  * Get and Post all inventory items
