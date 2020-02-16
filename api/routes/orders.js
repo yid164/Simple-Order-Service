@@ -23,8 +23,11 @@ router.post('/',(req, res, next)=>{
  * Get, Post, Put, and Delete a signle order
  */
 router.post('/:orderId',(req, res, next)=>{
+    const id = req.params.orderId;
     res.status(200).json({
-        message: 'Handling Post /orders/orderId'
+        
+        message: 'Handling Post /orders/',
+        orderId: id
     })
 });
 
