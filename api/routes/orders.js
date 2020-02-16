@@ -125,20 +125,45 @@ router.post('/',(req, res, next)=>{
 /**
  * Get, Post, Put, and Delete a signle order
  */
-router.post('/:orderId',(req, res, next)=>{
-    const id = req.params.orderId;
-    res.status(200).json({
-        
-        message: 'Handling Post /orders/',
-        orderId: id
+
+ // get a single order (Data Structure below)
+// _id: mongoose.Types.ObjectId,
+// customerEmail: {type: String},
+// date: {type: Date},
+// inventoryItem: {type:mongoose.Types.ObjectId, ref: 'Inventory', required: true},
+// orderQuantity:{type: Number, required: true},
+// orderStatus: {type: String}
+router.get('/:orderId',(req, res, next)=>{
+    const id = req.params.productId;
+    Inventory.findById(id)
+    .select('_id customerEmail date inventoryItem orderQuantity orderStatus')
+    .exec()
+    .then(docs=>{
+        console.log("GET from database");
+        if(docs)
+        {
+            res.status(200).json({
+                inventory: docs,
+                request:{
+                    type:'GET',
+                    url: 'http://localhost:3000/orders/' + docs._id
+                }
+            });
+        }else{
+            res.status(404).json({
+                message: 'Item not found'
+            });
+        }
+
     })
+    .catch(err=>{
+        console.log(err);
+        res.status(500).json({
+            error: err
+        })
+    });
 });
 
-router.get('/:orderId',(req, res, next)=>{
-    res.status(200).json({
-        message: 'Handling Get /orders/orderId'
-    })
-});
 
 router.put('/:orderId',(req, res, next)=>{
     res.status(200).json({
