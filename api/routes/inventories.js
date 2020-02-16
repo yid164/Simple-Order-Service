@@ -114,16 +114,39 @@ router.get('/:itemId',(req, res, next)=>{
     });
 });
 
+/**
+ * Implemete updated item
+ */
 router.put('/:itemId',(req, res, next)=>{
     res.status(200).json({
         message: 'Handling Put /inventroies/itemId'
     })
 });
 
-router.delete('/itemId', (req, res, next)=>{
-    res.status(200).json({
-        message: 'Handling Delete /inventroies/itemId'
+/**
+ * Implement delete item from inventories
+ */
+router.delete('/:itemId', (req, res, next)=>{
+    const id = req.params.itemId;
+    Inventory.remove({_id: id})
+    .exec()
+    .then(result=>{
+        console.log(result);
+        res.status(200).json({
+            message: 'Delete inventory item successful',
+            request: {
+                type: 'POST',
+                url: 'http://localhost:3000/inventories',
+                body:{name:'String', price:'Number', quantity:'Number',description:'String'}
+            }
+        })
     })
+    .catch(err =>{
+        console.log(err);
+        res.status(500).json({
+            error: err
+        })
+    });
 });
 
 
