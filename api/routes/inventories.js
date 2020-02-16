@@ -99,7 +99,7 @@ router.get('/:itemId',(req, res, next)=>{
                 item: docs,
                 request:{
                     type:'GET',
-                    url: 'http://localhost:3000/inventories' + docs._id
+                    url: 'http://localhost:3000/inventories/' + docs._id
                 }
             });
         }else{
@@ -110,17 +110,41 @@ router.get('/:itemId',(req, res, next)=>{
         console.log(err);
         res.status(500).json({
             error: err
-        });
+        })
     });
 });
 
 /**
- * Implemete updated item
+ * Implemete updated item, I used table to store the updated operation 
+ * propName is the attribute that require to update, value is the new value
+ * require a list to store the json file
  */
 router.put('/:itemId',(req, res, next)=>{
-    res.status(200).json({
-        message: 'Handling Put /inventroies/itemId'
+    const id = req.params.itemId;
+    const updateOps = {};
+    for(const ops of req.body)
+    {
+        updateOps[ops.propName] = ops.value;
+    }
+    Inventory.update({_id: id}, {$set: updateOps})
+    .exec()
+    .then(result=>{
+        console.log(result);
+        res.status(200).json({
+            message: 'Update inventory item successful',
+            item: result,
+            request:{
+                type:'GET',
+                url: 'http://localhost:3000/inventories/' + id
+            }
+        })
     })
+    .catch(err=>{
+        console.log(err);
+        res.status(500).json({
+            error: err
+        })
+    });
 });
 
 /**
@@ -149,7 +173,7 @@ router.delete('/:itemId', (req, res, next)=>{
     });
 });
 
-
+// Baiscly done of inventories, maybe do next of them tomorrow!
 module.exports = router;
 
 
