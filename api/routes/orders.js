@@ -8,6 +8,7 @@ const Order = require('../models/order');
 
 const mongoose = require('mongoose');
 
+
 /**
  * Get and Post all all orders
  */
@@ -50,10 +51,73 @@ router.get('/',(req, res, next)=>{
 });
 
 
+// Post an Orders from database (Data Structure below)
+// _id: mongoose.Types.ObjectId,
+// customerEmail: {type: String},
+// date: {type: Date},
+// inventoryItem: {type:mongoose.Types.ObjectId, ref: 'Inventory', required: true},
+// orderQuantity:{type: Number, required: true},
+// orderStatus: {type: String}
 router.post('/',(req, res, next)=>{
-    res.status(200).json({
-        message: 'Handling Post /orders'
+
+    const id = req.body.inventoryId;
+    Inventory.findById(id)
+
+    .then(inventory =>{
+        if(!inventory)
+        {
+            return res.status(404).json({
+                message: "No Item Found"
+            });
+        }
+        const newQuantity = inventory.quantity - req.body.orderQuantity;
+        if(newQuantity < 0)
+        {
+            return res.status(404).json({
+                message: "No enough item avaiable"
+            })
+        }
+        Inventory.update({_id: id}, {$set: {quantity: newQuantity}})
+        .exec()
+        .then()
+        .catch();
+
+        const order = new Order({
+            _id: mongoose.Types.ObjectId(),
+            customerEmail: req.body.customerEmail,
+            date: new Date(),
+            inventoryItem: req.body.inventoryId,
+            orderQuantity: req.body.orderQuantity,
+            orderStatus: req.body.orderStatus
+
+        });
+        return order
+        .save()
+        .then(result=>{
+            console.log(result);
+            res.status(201).json({
+                message: 'Order Saved',
+                createOrder:{
+                    _id: result._id,
+                    customerEmail: result.customerEmail,
+                    date: result.date,
+                    inventoryItem: result.inventoryId,
+                    orderQuantity: result.orderQuantity,
+                    orderStatus: result.orderStatus
+                },
+                request:{
+                    type:'GET',
+                    url: 'http://localhost:3000/orders/' + result._id
+                }
+            });
+        })
     })
+    .catch(err=>{
+        res.status(500).json({
+            message: 'Product not found or some else problems',
+            error: err
+        })
+    });
 });
 
 
