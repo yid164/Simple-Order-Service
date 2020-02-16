@@ -29,3 +29,6 @@ https://docs.google.com/document/d/14rhw1-wBinueKyZ-gsqNi4-fzGBe9wizmerc5EO0DrA/
 5. Extra tool: maybe morgan, body-parse, mongoose for implementation 
 
 ### Run
+
+$ npm install
+$ npm start
