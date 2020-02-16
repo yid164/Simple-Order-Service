@@ -134,8 +134,8 @@ router.post('/',(req, res, next)=>{
 // orderQuantity:{type: Number, required: true},
 // orderStatus: {type: String}
 router.get('/:orderId',(req, res, next)=>{
-    const id = req.params.productId;
-    Inventory.findById(id)
+    const id = req.params.orderId;
+    Order.findById(id)
     .select('_id customerEmail date inventoryItem orderQuantity orderStatus')
     .exec()
     .then(docs=>{
@@ -143,7 +143,7 @@ router.get('/:orderId',(req, res, next)=>{
         if(docs)
         {
             res.status(200).json({
-                inventory: docs,
+                orders: docs,
                 request:{
                     type:'GET',
                     url: 'http://localhost:3000/orders/' + docs._id
@@ -151,7 +151,7 @@ router.get('/:orderId',(req, res, next)=>{
             });
         }else{
             res.status(404).json({
-                message: 'Item not found'
+                message: 'Order not found'
             });
         }
 
@@ -165,10 +165,42 @@ router.get('/:orderId',(req, res, next)=>{
 });
 
 
+/**
+ * Update the order
+ */
 router.put('/:orderId',(req, res, next)=>{
-    res.status(200).json({
-        message: 'Handling Put /orders/orderId'
+    const id = req.params.orderId;
+    const updateOps = {};
+    for(const ops of req.body)
+    {
+        updateOps[ops.propName] = ops.value;
+  
+    }
+
+    const inventoryId =  updateOps['inventoryId'];
+
+
+    // update order
+    Order.update({_id: id}, {$set: updateOps})
+    .exec()
+    .then(result=>{
+        //console.log(result);
+        Inventory.update({_id: inventoryId},{$set: {quantity:updateOps['orderQuantity']}}).exec().then(
+            result=>
+            {
+                console.log(result);
+            }
+        ).catch();
+        
+        res.status(200).json({
+            message: 'Order updated',
+            request:{
+                type: 'GET',
+                url: 'http://localhost:3000/orders/' + id
+            }
+        })
     })
+    .catch();
 });
 
 router.delete('/:orderId',(req, res, next)=>{
