@@ -14,6 +14,8 @@ https://docs.google.com/document/d/14rhw1-wBinueKyZ-gsqNi4-fzGBe9wizmerc5EO0DrA/
 
 3. Order entity (Customer email address, Data order placed, Order status)
 
+4. In my understand, the question is focusing on backend (RESTful)
+
 ### Possible Solutions:
 
 1. Node.js with Express framework 
