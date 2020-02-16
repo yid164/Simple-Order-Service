@@ -1,13 +1,19 @@
+// express
 const express = require('express');
 
+// using
 const app = express();
 
+// using morgen for error log
 const morgen = require('morgan');
 
+// using bodyParser for read and input json
 const bodyParser = require('body-parser');
 
+// the inventories route
 const inventoryRoutes = require('./api/routes/inventories');
 
+// the orders route
 const orderRoutes = require('./api/routes/orders');
 
 app.use(morgen('dev'));
@@ -16,6 +22,7 @@ app.use(bodyParser.urlencoded({extended:false}));
 
 app.use(bodyParser.json());
 
+// CORS handling
 app.use(((req, res, next)=>{
     res.header('Access-Control-Allow-Origin', '*');
     res.header('Access-Control-Allow-Header',
@@ -28,10 +35,13 @@ app.use(((req, res, next)=>{
     next();
 }))
 
+// route inventories
 app.use('/inventories', inventoryRoutes);
 
+// route orders
 app.use('/orders', orderRoutes)
 
+// error handling
 app.use((req, res, next)=>{
     const error = new Error('Not Found Error');
     error.status(404);
