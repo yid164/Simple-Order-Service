@@ -86,7 +86,7 @@ it('Update PUT /inventoreis/id ,... OK, updating inventories item id: 5e48dc640a
  * Delete inventory item
  */
 it('DELELTE /inventoreis/id ,... OK, Deleting inventories item id: 5e48ea6cecd7c80c3b4f8f72 ', async ()=>{
-    request(app).put('/inventories/5e48ea6cecd7c80c3b4f8f72')
+    request(app).delete('/inventories/5e48ea6cecd7c80c3b4f8f72')
     .then((res)=>{
         const body = res.body;
         expect(body.message).to('Delete inventory item successful');

@@ -52,17 +52,17 @@ it('GET /order/,... OK, get all orders', async ()=>{
 });
 
 /**
- * GET /inventoreis/items
+ * GET /orders/items
  */
-it('GET /inventories/items,... OK, get one item from inventoiris', async ()=>{
-    request(app).get('/inventories/5e48dc640ab53f0aa918c296')
+it('GET /orders/items,... OK, get one item from orders 5e49913db8daa417fd6dda05', async ()=>{
+    request(app).get('/inventories/5e49913db8daa417fd6dda05')
     .then((res)=>{
         const body = res.body;
         expect(body).to.contain.property('_id');
-        expect(body).to.contain.property('name');
-        expect(body).to.contain.property('price');
-        expect(body).to.contain.property('description');
-        expect(body).to.contain.property('quantity');
+        expect(body).to.contain.property('inventoryId');
+        expect(body).to.contain.property('customerEmail');
+        expect(body).to.contain.property('orderQuantity');
+        expect(body).to.contain.property('orderStatus');
         done();
     }).catch(err=>{
         error: err
@@ -70,12 +70,12 @@ it('GET /inventories/items,... OK, get one item from inventoiris', async ()=>{
 });
 
 /**
- * Update inventory item
+ * Update a single orderorder
  */
 
-it('Update PUT /inventoreis/id ,... OK, updating inventories item id: 5e48dc640ab53f0aa918c296 ', async ()=>{
-    request(app).put('/inventories/5e48dc640ab53f0aa918c296')
-    .send([{ name: 'ITEM 4', price: '12.99', description: 'THIS IS ITEM 4', quantity: '8'}])
+it('Update PUT /orders/id ,... OK, updating inventories item id: 5e498b9440a4541659a21aa6', async ()=>{
+    request(app).put('/orders/5e498b9440a4541659a21aa6')
+    .send([{ inventoryId: '5e48dc640ab53f0aa918c296', customerEmail: 'bcd@gmail.com', orderQuantity: '14', orderStatus: 'Good'}])
     .then((res)=>{
         const body = res.body;
         expect(body).to.contain.property('ok');
@@ -89,13 +89,13 @@ it('Update PUT /inventoreis/id ,... OK, updating inventories item id: 5e48dc640a
 });
 
 /**
- * Delete inventory item
+ * Delete order item
  */
-it('DELELTE /inventoreis/id ,... OK, Deleting inventories item id: 5e48ea6cecd7c80c3b4f8f72 ', async ()=>{
-    request(app).put('/inventories/5e48ea6cecd7c80c3b4f8f72')
+it('DELELTE /orders/id ,... OK, Deleting inventories item id: 5e49913db8daa417fd6dda05', async ()=>{
+    request(app).delete('/orders/5e49913db8daa417fd6dda05')
     .then((res)=>{
         const body = res.body;
-        expect(body.message).to('Delete inventory item successful');
+        expect(body.message).to('Delete order successful');
         done();
     }).catch(err=>{
         error: err
