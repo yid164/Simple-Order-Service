@@ -12,13 +12,7 @@ const mongoose = require('mongoose');
 /**
  * Get and Post all all orders
  */
-// Get All Orders from database (Data Structure below)
-// _id: mongoose.Types.ObjectId,
-// customerEmail: {type: String},
-// date: {type: Date},
-// inventoryItem: {type:mongoose.Types.ObjectId, ref: 'Inventory', required: true},
-// orderQuantity:{type: Number, required: true},
-// orderStatus: {type: String}
+
 router.get('/',(req, res, next)=>{
     Order.find()
     .select('_id customerEmail date inventoryItem orderQuantity orderStatus')
@@ -52,12 +46,6 @@ router.get('/',(req, res, next)=>{
 
 
 // Post an Orders from database (Data Structure below)
-// _id: mongoose.Types.ObjectId,
-// customerEmail: {type: String},
-// date: {type: Date},
-// inventoryItem: {type:mongoose.Types.ObjectId, ref: 'Inventory', required: true},
-// orderQuantity:{type: Number, required: true},
-// orderStatus: {type: String}
 router.post('/',(req, res, next)=>{
 
     const id = req.body.inventoryId;
@@ -126,13 +114,6 @@ router.post('/',(req, res, next)=>{
  * Get, Post, Put, and Delete a signle order
  */
 
- // get a single order (Data Structure below)
-// _id: mongoose.Types.ObjectId,
-// customerEmail: {type: String},
-// date: {type: Date},
-// inventoryItem: {type:mongoose.Types.ObjectId, ref: 'Inventory', required: true},
-// orderQuantity:{type: Number, required: true},
-// orderStatus: {type: String}
 router.get('/:orderId',(req, res, next)=>{
     const id = req.params.orderId;
     Order.findById(id)
