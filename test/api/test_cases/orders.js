@@ -32,18 +32,18 @@ it('POST /orders/,... OK, creating a new inventoiris', async ()=>{
 });
 
 /**
- * GET /inventoreis
+ * GET /orders
  */
 
-it('GET /inventoreis/,... OK, get all inventoiris', async ()=>{
+it('GET /order/,... OK, get all orders', async ()=>{
     request(app).get('/inventories')
     .then((res)=>{
         const body = res.body;
         expect(body).to.contain.property('_id');
-        expect(body).to.contain.property('name');
-        expect(body).to.contain.property('price');
-        expect(body).to.contain.property('description');
-        expect(body).to.contain.property('quantity');
+        expect(body).to.contain.property('inventoryId');
+        expect(body).to.contain.property('customerEmail');
+        expect(body).to.contain.property('orderQuantity');
+        expect(body).to.contain.property('orderStatus');
         done();
     }).catch(err=>{
         error: err
