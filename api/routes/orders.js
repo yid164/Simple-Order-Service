@@ -176,22 +176,45 @@ router.put('/:orderId',(req, res, next)=>{
         updateOps[ops.propName] = ops.value;
   
     }
-
     const inventoryId =  updateOps['inventoryId'];
+    const quantityChange = updateOps['orderQuantity'];
+    Inventory.findById(inventoryId).exec().then(result=>{
+        var inventoryQantity = result.quantity;
+        Order.findById(id).exec().then(res=>{
+            var currentQantity = res.orderQuantity;
+            var total = currentQantity + inventoryQantity;
+            console.log("TOTOAL IS " + total);
+            if(total - quantityChange >= 0)
+            {
+                var afterChange = total - quantityChange;
+                console.log("After Change    " + afterChange);
+                Inventory.update({_id: inventoryId}, {$set:{quantity:afterChange}})
+                .exec()
+                .then(result=>{
+                    res.status(200).json({
+                        message: "udpated the inventory already"
+                    });
+                })
+                .catch(err=>{
+                    error: err
+                });
+            }else{
+                res.status(500).json({
+                    message: "Not enough quantities"
+                })
+            }
+        }).catch(err=>{
+            error: err
+        });
 
 
-    // update order
+    }).catch(err=>{
+        error=> err
+    });
+
     Order.update({_id: id}, {$set: updateOps})
     .exec()
     .then(result=>{
-        //console.log(result);
-        Inventory.update({_id: inventoryId},{$set: {quantity:updateOps['orderQuantity']}}).exec().then(
-            result=>
-            {
-                console.log(result);
-            }
-        ).catch();
-        
         res.status(200).json({
             message: 'Order updated',
             request:{
@@ -200,13 +223,14 @@ router.put('/:orderId',(req, res, next)=>{
             }
         })
     })
-    .catch();
+    .catch(err=>{
+        error: err
+    });
 });
 
+// delete api
 router.delete('/:orderId',(req, res, next)=>{
-    res.status(200).json({
-        message: 'Handling Delete /orders/orderId'
-    })
+
 });;
 
 
