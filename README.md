@@ -30,5 +30,6 @@ https://docs.google.com/document/d/14rhw1-wBinueKyZ-gsqNi4-fzGBe9wizmerc5EO0DrA/
 
 ### Run
 
-$ npm install
-$ npm start
+#### intall npm dependency: $ npm install 
+#### run the project: $ npm start
+#### run the test: $ npm run test
