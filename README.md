@@ -35,3 +35,9 @@ https://docs.google.com/document/d/14rhw1-wBinueKyZ-gsqNi4-fzGBe9wizmerc5EO0DrA/
 ###### run the test: $ npm run test
 
 ### End
+
+The project is finshed by now. This is my first time to do the web RESTful API by using NODE.JS.
+
+I spent 3 days for read and watch turtorials, and implemented 1.5 day in coding. 
+
+I believe there some small bugs in the code, and I will fix them later. Since the due date is tomorrow morning, I'll leave it now. 
