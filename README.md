@@ -22,7 +22,7 @@ https://docs.google.com/document/d/14rhw1-wBinueKyZ-gsqNi4-fzGBe9wizmerc5EO0DrA/
 
 2. Using MongoDB as backend database (Because it is free)
 
-3. Using Postman to test APIs 
+3. Using Postman to test APIs, use Mocha, Supertest, and Chai as testing framework
 
 4. Because the question does not require authorization, which means I do not need to do the username, password and verfiy them.
 
@@ -30,6 +30,8 @@ https://docs.google.com/document/d/14rhw1-wBinueKyZ-gsqNi4-fzGBe9wizmerc5EO0DrA/
 
 ### Run
 
-#### intall npm dependency: $ npm install 
-#### run the project: $ npm start
-#### run the test: $ npm run test
+###### intall npm dependency: $ npm install 
+###### run the project: $ npm start
+###### run the test: $ npm run test
+
+### End

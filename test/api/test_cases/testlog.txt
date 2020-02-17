@@ -1,0 +1,14 @@
+> mocha --recursive --exit --timeout 10000
+
+
+
+  ✓ POST /inventoreis/,... OK, creating a new inventoiris
+  ✓ GET /inventoreis/,... OK, get all inventoiris
+  ✓ GET /inventories/items,... OK, get one item from inventoiris
+  ✓ Update PUT /inventoreis/id ,... OK, updating inventories item id: 5e48dc640ab53f0aa918c296 
+  ✓ DELELTE /inventoreis/id ,... OK, Deleting inventories item id: 5e48ea6cecd7c80c3b4f8f72 
+  ✓ POST /orders/,... OK, creating a new inventoiris
+  ✓ GET /order/,... OK, get all orders
+  ✓ GET /orders/items,... OK, get one item from orders 5e49913db8daa417fd6dda05
+  ✓ Update PUT /orders/id ,... OK, updating inventories item id: 5e498b9440a4541659a21aa6
+  ✓ DELELTE /orders/id ,... OK, Deleting inventories item id: 5e49913db8daa417fd6dda05
