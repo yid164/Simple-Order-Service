@@ -231,6 +231,28 @@ router.put('/:orderId',(req, res, next)=>{
 // delete api
 router.delete('/:orderId',(req, res, next)=>{
 
+    const id = req.params.orderId;
+    
+    Order.findByIdAndRemove(id)
+    .exec()
+    .then(result=>{
+        const quantityFromOrder = result.orderQuantity;
+        const inventoryId = result.inventoryId;
+        Inventory.update({_id: inventoryId}, {$set:{quantity: quantityFromOrder}})
+        .exec()
+        .then(res=>{
+            res.status(200).json({
+                message: "Has added back to inventory"
+            })
+        })
+        .catch();
+        res.status(200).json({
+            message: "Ordered Deleted"
+        })
+    })
+    .catch(err=>{
+        error: err;
+    });
 });;
 
 
